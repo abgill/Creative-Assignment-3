@@ -10,17 +10,25 @@
         <button ng-click="submitSearch()">search</button>
     </form>
 
-    <img ng-src="{{imgPath}}">
-    
+    <ul>
+        <li ng-repeat="albumDat in albums">
+            <img height="100px" width="100px" ng-src="{{albumDat.image[2]['#text']}}">
+            <!--<album  albumData="albumDat"/>-->
+        </li>
+    </ul>
+
 </div>
 
 <script>
-    var app = angular.module('myApp', []);
+    angular.module('myApp', [])
+        .controller('myCtrl', myCtrl)
+        .directive('album',albumDir);
 
-    app.controller('myCtrl', function($scope, $http) {
+    function myCtrl ($scope, $http) {
 
         $scope.albumSearch = '';
         $scope.imgPath = '';
+        $scope.albums = [];
 
         $scope.submitSearch = function (){
             $http({
@@ -28,6 +36,8 @@
                 url : "http://ws.audioscrobbler.com/2.0/?method=album.search&album="+ $scope.albumSearch +"&api_key=152d1d85d483fc56d5b7c01e6a1d41bb&format=json"
             }).then(function mySuccess(response) {
                 $scope.albumText = response;
+                $scope.albums = angular.copy(response.data.results.albummatches.album);
+                console.log($scope.albums);
                 $scope.imgPath = response.data.results.albummatches.album[0].image[2]['#text'];
 
             }, function myError(response) {
@@ -37,7 +47,25 @@
 
         $scope.albumSearch = '';
 
-    });
+    };
+
+    function albumDir() {
+        return {
+            scope: {
+                albumData: '=' /* [1] */
+            },
+            restrict: 'E', /* [2] */
+            replace: 'true',
+            template: (
+                '<div>'
+//                '<img ng-src=\"{{albumData.image[2][\'#text\']}}</h4>\"height=\"100px" width=\"100px\" ' +
+                    + '<p>{{albumData}}</p>' +
+                '</div>'
+            )
+        };
+    }
+
+
 </script>
 
 </body>
