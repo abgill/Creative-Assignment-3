@@ -6,14 +6,12 @@
 <div ng-app="myApp" ng-controller="myCtrl">
 
     <form>
-        <input type="text" ng-model="albumSearch"/>
+        <input type="text" ng-model="albumSearch" required>
         <button ng-click="submitSearch()">search</button>
-
     </form>
 
-
-    <h1>{{albumText}}</h1>
-
+    <img ng-src="{{imgPath}}">
+    
 </div>
 
 <script>
@@ -22,6 +20,7 @@
     app.controller('myCtrl', function($scope, $http) {
 
         $scope.albumSearch = '';
+        $scope.imgPath = '';
 
         $scope.submitSearch = function (){
             $http({
@@ -29,6 +28,8 @@
                 url : "http://ws.audioscrobbler.com/2.0/?method=album.search&album="+ $scope.albumSearch +"&api_key=152d1d85d483fc56d5b7c01e6a1d41bb&format=json"
             }).then(function mySuccess(response) {
                 $scope.albumText = response;
+                $scope.imgPath = response.data.results.albummatches.album[0].image[2]['#text'];
+
             }, function myError(response) {
                 $scope.albumText = response.statusText;
             });
