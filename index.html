@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+
+    <form>
+        <input type="text" ng-model="albumSearch"/>
+        <button ng-click="submitSearch()">search</button>
+
+    </form>
+
+
+    <h1>{{albumText}}</h1>
+
+</div>
+
+<script>
+    var app = angular.module('myApp', []);
+
+    app.controller('myCtrl', function($scope, $http) {
+
+        $scope.albumSearch = '';
+
+        $scope.submitSearch = function (){
+            $http({
+                method : "GET",
+                url : "http://ws.audioscrobbler.com/2.0/?method=album.search&album="+ $scope.albumSearch +"&api_key=152d1d85d483fc56d5b7c01e6a1d41bb&format=json"
+            }).then(function mySuccess(response) {
+                $scope.albumText = response;
+            }, function myError(response) {
+                $scope.albumText = response.statusText;
+            });
+        }
+
+        $scope.albumSearch = '';
+
+    });
+</script>
+
+</body>
+</html>
