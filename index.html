@@ -5,14 +5,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-route.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
 
 </head>
 <body>
 
 <div ng-app="myApp" ng-controller="searchCtrl">
 
-    <div ng-view></div>
+
+
+
+   <ui-view></ui-view>
 
     <!--<form>-->
         <!--<input type="text" ng-model="albumSearch" required>-->
@@ -29,17 +32,22 @@
 </div>
 
 <script>
-    angular.module('myApp', ["ngRoute"])
+    angular.module('myApp', ["ui.router"])
         .controller('searchCtrl', searchCtrl)
         .directive('album',albumDir)
-        .config(function($routeProvider){
-            $routeProvider.when("/",{
-                templateUrl : "search.html",
-                controller: "searchCtrl"
-            }).when("/test",{
-                template : "<h1>test</h1>"
-            })
-        });
+        .config([
+            '$stateProvider',
+            '$urlRouterProvider',
+            function ($stateProvider, $urlRouterProvider) {
+                $stateProvider
+                    .state('home',{
+                        url: '/',
+                        templateUrl:'search.html',
+                        controller: 'searchCtrl'
+                    });
+                $urlRouterProvider.otherwise('home');
+            }
+        ]);
 
 
 
