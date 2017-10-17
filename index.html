@@ -33,40 +33,47 @@
 
 <script>
     angular.module('myApp', ["ui.router"])
-        .controller('searchCtrl', searchCtrl)
-        .controller('albumCtrl', ['$scope',
-            '$stateParams',
-        function ($scope,$stateParams) {
-            console.log($stateParams.album);
-            $scope.album = $stateParams.album;
-            $scope.artist = $stateParams.artist;
-
-        }])
+        .controller('searchCtrl', ['$scope','$http','$stateParams', '$location',searchCtrl])
+        .controller('albumCtrl', ['$scope', '$stateParams', albumCtrl])
         .directive('album',albumDir)
         .config([
             '$stateProvider',
             '$urlRouterProvider',
-            albumCtrl
+            route
         ]);
 
-    function albumCtrl ($stateProvider, $urlRouterProvider) {
+    function albumCtrl ($scope,$stateParams) {
+        console.log($stateParams.album);
+        $scope.album = $stateParams.album;
+        $scope.artist = $stateParams.artist;
+
+    }
+
+    function route ($stateProvider, $urlRouterProvider) {
         $stateProvider
             .state('search',{
+                url: '/search/{album}',
+                templateUrl:'search.html',
+                controller: 'searchCtrl'
+            })
+            .state('home',{
                 url: '/search',
                 templateUrl:'search.html',
                 controller: 'searchCtrl'
             })
             .state('album',{
-                url: '/album/{album}/{artist}',
+                url: '/album/{album}/:artist',
                 template: '<p>{{album}}{{artist}}</p>',
                 controller:'albumCtrl'
             });
         $urlRouterProvider.otherwise('/search');
     }
 
-    function searchCtrl ($scope, $http) {
+    function searchCtrl ($scope, $http, $stateParams, $location) {
 
-        $scope.albumSearch = '';
+
+
+        $scope.albumSearch = "";
         $scope.imgPath = '';
         $scope.albums = [];
 
@@ -78,7 +85,11 @@
             };
         }
 
-        $scope.submitSearch = function (){
+        $scope.submitSearch = function () {
+            $location.url('/search/' + $scope.albumSearch);
+        }
+
+        $scope.search = function (){
             $http({
                 method : "GET",
                 url : "http://ws.audioscrobbler.com/2.0/?method=album.search&album="+ $scope.albumSearch +"&api_key=152d1d85d483fc56d5b7c01e6a1d41bb&format=json"
@@ -98,6 +109,11 @@
             }, function myError(response) {
                 $scope.albumText = response.statusText;
             });
+        }
+
+        if($stateParams.album && $stateParams.album.length > 0){
+            $scope.albumSearch = $stateParams.album;
+            $scope.search();
         }
 
     };
