@@ -2,3 +2,9 @@
 <img ng-src="{{coverurl}}">
 <div ng-bind-html="wiki">
 </div>
+
+<ul>
+    <li ng-repeat="track in trackList">
+        <p>{{track.name}}</p>
+    </li>
+</ul>

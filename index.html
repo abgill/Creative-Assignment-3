@@ -34,6 +34,7 @@
         $scope.artist = $stateParams.artist;
         $scope.coverurl = "#";
         $scope.wiki = "";
+        $scope.trackList = [];
 
         $http({
             method : "GET",
@@ -42,6 +43,7 @@
             $scope.album = response.data.album.name;
             $scope.coverurl = response.data.album.image[4]['#text'];
             $scope.wiki = response.data.album.wiki.summary;
+            $scope.trackList = response.data.album.tracks.track;
             console.log(response);
         });
 
