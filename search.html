@@ -1,0 +1,11 @@
+<form>
+    <input type="text" ng-model="albumSearch" required>
+    <button type="button" ng-click="submitSearch()">search</button>
+</form>
+
+<ul>
+    <li ng-repeat="albumdat in albums">
+        <!--<img height="100px" width="100px" ng-src="{{album-data.artworkUrl}}">-->
+        <album albumdat='albumdat' ng-click="selectAlbum(albumdat)"></album>
+    </li>
+</ul>

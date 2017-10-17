@@ -111,6 +111,10 @@
             });
         }
 
+        $scope.selectAlbum = function (albumdat) {
+            $location.url('/album/' + albumdat.name + '/' + albumdat.artist);
+        }
+
         if($stateParams.album && $stateParams.album.length > 0){
             $scope.albumSearch = $stateParams.album;
             $scope.search();
