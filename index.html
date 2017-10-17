@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<div ng-app="myApp" ng-controller="searchCtrl">
+<div ng-app="myApp">
 
 
 
@@ -34,23 +34,35 @@
 <script>
     angular.module('myApp', ["ui.router"])
         .controller('searchCtrl', searchCtrl)
+        .controller('albumCtrl', ['$scope',
+            '$stateParams',
+        function ($scope,$stateParams) {
+            console.log($stateParams.album);
+            $scope.album = $stateParams.album;
+            $scope.artist = $stateParams.artist;
+
+        }])
         .directive('album',albumDir)
         .config([
             '$stateProvider',
             '$urlRouterProvider',
-            function ($stateProvider, $urlRouterProvider) {
-                $stateProvider
-                    .state('home',{
-                        url: '/',
-                        templateUrl:'search.html',
-                        controller: 'searchCtrl'
-                    });
-                $urlRouterProvider.otherwise('home');
-            }
+            albumCtrl
         ]);
 
-
-
+    function albumCtrl ($stateProvider, $urlRouterProvider) {
+        $stateProvider
+            .state('search',{
+                url: '/search',
+                templateUrl:'search.html',
+                controller: 'searchCtrl'
+            })
+            .state('album',{
+                url: '/album/{album}/{artist}',
+                template: '<p>{{album}}{{artist}}</p>',
+                controller:'albumCtrl'
+            });
+        $urlRouterProvider.otherwise('/search');
+    }
 
     function searchCtrl ($scope, $http) {
 
