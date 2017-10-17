@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
 <body>
 
 <div ng-app="myApp" ng-controller="myCtrl">
@@ -11,9 +11,9 @@
     </form>
 
     <ul>
-        <li ng-repeat="albumDat in albums">
-            <img height="100px" width="100px" ng-src="{{albumDat.image[2]['#text']}}">
-            <!--<album  albumData="albumDat"/>-->
+        <li ng-repeat="albumdat in albums">
+            <!--<img height="100px" width="100px" ng-src="{{album-data.artworkUrl}}">-->
+            <album albumdat='albumdat'></album>
         </li>
     </ul>
 
@@ -30,43 +30,57 @@
         $scope.imgPath = '';
         $scope.albums = [];
 
+        $scope.albumFactory = function (albumUrl, albumName, albumArtist) {
+            return {
+                artworkUrl: albumUrl,
+                name : albumName,
+                artist : albumArtist
+            };
+        }
+
         $scope.submitSearch = function (){
             $http({
                 method : "GET",
                 url : "http://ws.audioscrobbler.com/2.0/?method=album.search&album="+ $scope.albumSearch +"&api_key=152d1d85d483fc56d5b7c01e6a1d41bb&format=json"
             }).then(function mySuccess(response) {
-                $scope.albumText = response;
-                $scope.albums = angular.copy(response.data.results.albummatches.album);
-                console.log($scope.albums);
+                var albumData = angular.copy(response.data.results.albummatches.album);
+                //console.log(albumData);
                 $scope.imgPath = response.data.results.albummatches.album[0].image[2]['#text'];
+                $scope.albums = [];
+                for(var i = 0; i < albumData.length; i++ ){
+                    $scope.albums.push(($scope.albumFactory(albumData[i].image[2]['#text'],'a','b')));
+                }
+
+                console.log($scope.albums);
 
             }, function myError(response) {
                 $scope.albumText = response.statusText;
             });
         }
 
-        $scope.albumSearch = '';
-
     };
 
     function albumDir() {
         return {
-            scope: {
-                albumData: '=' /* [1] */
-            },
-            restrict: 'E', /* [2] */
+            scope: { albumdat: '='},
+            restrict: 'E',
             replace: 'true',
             template: (
                 '<div>'
-//                '<img ng-src=\"{{albumData.image[2][\'#text\']}}</h4>\"height=\"100px" width=\"100px\" ' +
-                    + '<p>{{albumData}}</p>' +
+                    + '<img height="100" width="100" src="{{albumdat.artworkUrl}}" />' +
                 '</div>'
-            )
+            ),
+            link : function link(scope, element, attrs){
+                console.log(scope);
+            }
         };
     }
 
 
+
+
 </script>
+
 
 </body>
 </html>
