@@ -1,10 +1,20 @@
-<h1>{{album}}</h1>
-<img ng-src="{{coverurl}}">
+<div class="col-md-5 col-centered" id="albumCol">
+    <div class="text-center">
+        <h1>{{album}}</h1>
+        <img ng-src="{{coverurl}}">
+    </div>
+    <hr>
+    <h3>Summary:</h3>
 <div ng-bind-html="wiki">
 </div>
+
+    <h3>
+        Track Listing:
+    </h3>
 
 <ul>
     <li ng-repeat="track in trackList">
         <p>{{track.name}}</p>
     </li>
 </ul>
+</div>

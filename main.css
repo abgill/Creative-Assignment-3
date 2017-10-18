@@ -1,0 +1,7 @@
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+#albumCol{
+    background-color: #f1f1ff;
+}
