@@ -13,6 +13,8 @@
 
     <link rel="stylesheet" href="main.css">
 
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
     <script src="//code.angularjs.org/1.2.20/angular-sanitize.min.js"></script>
@@ -21,7 +23,7 @@
 <body>
 
 <nav class="navbar navbar-toggleable-md navbar-inverse bg-primary">
-    <a class="navbar-brand" href="#/search">Album Search</a>
+    <a class="navbar-brand" href="#/search">Album Finder</a>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
@@ -41,6 +43,7 @@
         .controller('albumCtrl', ['$scope','$http', '$stateParams', albumCtrl])
         .directive('album',albumDir)
         .config(['$stateProvider','$urlRouterProvider',route]);
+    
 
     function albumCtrl ($scope,$http,$stateParams) {
         console.log($stateParams.album);
@@ -142,8 +145,8 @@
             replace: 'true',
             template: (
                 '<div>'
-                + '<p>Artist: {{albumdat.artist}}</p>'
-                + '<p>Album Name: {{albumdat.name}}</p>'
+                + '<h4>Artist: {{albumdat.artist}}</h4>'
+                + '<h4>Album Name: {{albumdat.name}}</h4>'
                 + '<img height="100" width="100" src="{{albumdat.artworkUrl}}" />' +
                 '<hr>'+
                 '</div>'

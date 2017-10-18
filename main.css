@@ -5,3 +5,8 @@
 #albumCol{
     background-color: #f1f1ff;
 }
+.fix-to-top {
+    position: fixed;
+    background-color: red;
+    top: 0;
+}
