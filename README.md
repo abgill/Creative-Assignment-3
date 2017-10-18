@@ -1,2 +1,2 @@
 # Creative-Assignment-3
-A simple Angular Js app that grabs data on albums.
+There were 3 things that I wanted to learn how to do better with Angular: Ajax calls, routing, and custom directives.  My page fetches data on Albums from a rest API and lists the results.  I used a custom directive to represent the search results.  When you click on an album it will route you a screen where you can see more details about the album.   Throughout the whole app data is passed via URL parameters so pressing the forwards and back arrow won't cause any hitches while navigating.
