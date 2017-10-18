@@ -1,20 +1,21 @@
 <div class="container text-center">
-<form>
-    <input type="text" ng-model="albumSearch" required>
-    <input value="search" type="submit" ng-click="submitSearch()"></input>
-</form>
 
-<!--<ul>-->
-    <!--<li ng-repeat="albumdat in albums">-->
-        <!--&lt;!&ndash;<img height="100px" width="100px" ng-src="{{album-data.artworkUrl}}">&ndash;&gt;-->
-        <!--<album albumdat='albumdat' ng-click="selectAlbum(albumdat)"></album>-->
-    <!--</li>-->
-<!--</ul>-->
+    <form ng-submit="submitSearch()">
+        <input type="text" ng-model="albumSearch" placeholder="Enter the Title of An Album" required>
+        <input value="search" type="submit"/>
+    </form>
+
+    <div ng-show="showInstructionDiv">
+        <hr>
+        <h4>Click on an album to learn more</h4>
+        <hr>
+    </div>
+
+    <div class="row" ng-repeat="albumdat in albums">
+        <!--<img height="100px" width="100px" ng-src="{{album-data.artworkUrl}}">-->
+        <album albumdat='albumdat' ng-click="selectAlbum(albumdat)"></album>
+    </div>
 
 
-        <div class="row" ng-repeat="albumdat in albums">
-            <!--<img height="100px" width="100px" ng-src="{{album-data.artworkUrl}}">-->
-            <album albumdat='albumdat' ng-click="selectAlbum(albumdat)"></album>
-        </div>
 
 </div>

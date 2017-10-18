@@ -31,7 +31,7 @@
 
 <div ng-app="myApp">
 
-   <ui-view></ui-view>
+    <ui-view></ui-view>
 
 </div>
 
@@ -87,6 +87,7 @@
         $scope.albumSearch = "";
         $scope.imgPath = '';
         $scope.albums = [];
+        $scope.showInstructionDiv = false;
 
         $scope.albumFactory = function (albumUrl, albumName, albumArtist) {
             return {
@@ -129,6 +130,7 @@
         if($stateParams.album && $stateParams.album.length > 0){
             $scope.albumSearch = $stateParams.album;
             $scope.search();
+            $scope.showInstructionDiv = true;
         }
 
     }
@@ -140,9 +142,10 @@
             replace: 'true',
             template: (
                 '<div>'
-                    + '<p>Artist: {{albumdat.artist}}</p>'
-                    + '<p>Album Name: {{albumdat.name}}</p>'
-                    + '<img height="100" width="100" src="{{albumdat.artworkUrl}}" />' +
+                + '<p>Artist: {{albumdat.artist}}</p>'
+                + '<p>Album Name: {{albumdat.name}}</p>'
+                + '<img height="100" width="100" src="{{albumdat.artworkUrl}}" />' +
+                '<hr>'+
                 '</div>'
             ),
             link : function link(scope, element, attrs){
