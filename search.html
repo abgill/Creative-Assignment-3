@@ -1,8 +1,14 @@
 <div class="container text-center">
+    
+    <img src="logo.png">
 
-    <form ng-submit="submitSearch()">
-        <input type="text" ng-model="albumSearch" placeholder="Enter the Title of An Album" required>
-        <input value="search" type="submit"/>
+    <hr>
+
+    <form ng-submit="submitSearch()" class="form-inline">
+        <div class="form-group">
+            <input class="form-control" type="text" ng-model="albumSearch" placeholder="Enter the title of an album" required>
+            <input value="Search" class="btn btn-primary" type="submit"/>
+        </div>
     </form>
 
     <div ng-show="showInstructionDiv">
